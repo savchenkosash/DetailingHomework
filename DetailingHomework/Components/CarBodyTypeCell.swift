@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CarTransmissionCell: View {
+struct CarBodyTypeCell: View {
     
     var title: String = "Automatic"
     var isSelected: Bool = false
@@ -37,10 +37,10 @@ extension View {
 
 #Preview {
     VStack {
-        CarTransmissionCell(title: "Automatic")
-        CarTransmissionCell(title: "Manual", isSelected: true)
-        CarTransmissionCell(title: "Electric")
-        CarTransmissionCell(title: "Hybrid")
+        CarBodyTypeCell(title: "Automatic")
+        CarBodyTypeCell(title: "Manual", isSelected: true)
+        CarBodyTypeCell(title: "Electric")
+        CarBodyTypeCell(title: "Hybrid")
     }
 }
 

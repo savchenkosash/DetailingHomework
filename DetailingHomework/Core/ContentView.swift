@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let car: Car = .mock
+    let car: CarModel = .mock
     
     var body: some View {
         ZStack {
@@ -45,11 +45,11 @@ struct ContentView: View {
     
     private var header: some View {
         VStack(spacing: 10) {
-            Text(car.className)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(car.name)
+//            Text(car.className)
+//                .font(.subheadline)
+//                .foregroundStyle(.secondary)
+//                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(car.model)
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundStyle(.primary)
@@ -59,13 +59,14 @@ struct ContentView: View {
     
     private var mainInfo: some View {
         VStack(spacing: 0) {
-            IconRowCell(title: car.year, decription: "Year", iconName: "car.side")
-            IconRowCell(title: car.color, decription: "Color", iconName: "bubbles.and.sparkles")
-            IconRowCell(title: car.mileage, decription: "Mileage", iconName: "gauge.with.dots.needle.33percent")
-            IconRowCell(title: car.power, decription: "Power up", iconName: "bolt.fill")
-            IconRowCell(title: car.topSpeed, decription: "Top speed", iconName: "speedometer")
-            IconRowCell(title: car.number, decription: "Number", iconName: "number")
-            IconRowCell(title: car.owner, decription: "Car Driver", iconName: "person.fill")
+            IconRowCell(title: car.model, decription: "Year", iconName: "car.side")
+            IconRowCell(title: car.color ?? "Red", decription: "Color", iconName: "bubbles.and.sparkles")
+            IconRowCell(title: String(describing: car.mileage), decription: "Mileage", iconName: "gauge.with.dots.needle.33percent")
+            IconRowCell(title: car.licensePlate ?? "001AA1", decription: "Number", iconName: "number")
+
+//            IconRowCell(title: car.power, decription: "Power up", iconName: "bolt.fill")
+//            IconRowCell(title: car.topSpeed, decription: "Top speed", iconName: "speedometer")
+//            IconRowCell(title: car.owner, decription: "Car Driver", iconName: "person.fill")
         }
     }
     

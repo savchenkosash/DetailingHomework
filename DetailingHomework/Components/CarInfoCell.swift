@@ -9,8 +9,8 @@ import SwiftUI
 
 struct CarInfoCell: View {
     
-    var carImageSide: String = "carimage.side"
-    var car: Car = .mock
+    var car: CarModel = .mock
+    var bodyType: BodyType?
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -20,27 +20,32 @@ struct CarInfoCell: View {
             }
             .padding(7)
             
-            Image(carImageSide)
-                .resizable()
-                .scaledToFit()
-                .padding(10)
-            
-            Text(car.name)
+            Text(car.model)
                 .font(.subheadline)
                 .fontWeight(.bold)
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
+                .frame(width: 70)
             
+            Image(bodyType?.imageName(style: .side) ?? "carimage.side")
+                .resizable()
+                .scaledToFit()
+                .scaleEffect(1.35)
+                .padding(.leading, 75)
+            
+
+
         }
         .frame(maxWidth: .infinity, maxHeight: 250)
         .background(Color.gray.opacity(0.3))
         .cornerRadius(25)
         .padding(5)
+        
     }
     
     private var carPower: some View {
         HStack(alignment: .bottom, spacing: 0) {
-            Text("\(car.power) kW")
+            Text("100 kW")
                 .font(.title)
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
@@ -92,5 +97,5 @@ struct CarInfoCell: View {
 }
 
 #Preview {
-    CarInfoCell()
+    CarInfoCell(bodyType: .coupe)
 }

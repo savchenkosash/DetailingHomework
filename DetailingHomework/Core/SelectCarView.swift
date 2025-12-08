@@ -10,6 +10,7 @@ import SwiftUI
 struct SelectCarView: View {
     
     @State private var showSheet: Bool = true
+    @State private var selectedBodyType: BodyType? = nil
     
     var body: some View {
             VStack {
@@ -24,13 +25,13 @@ struct SelectCarView: View {
                         .cornerRadius(25)
                 }
                 Spacer()
-
             }
             
             .sheet(isPresented: $showSheet) {
                 SelectCarSheetView()
                     .presentationCornerRadius(25)
                     .presentationDetents([.fraction(0.52)])
+                    
             }
         
         .background(
@@ -59,7 +60,7 @@ struct SelectCarSheetView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var selectedTransmission: Transmissions? = nil
+    @State private var selectedBodyType: BodyType = .sedan
     
     var body: some View {
             
@@ -67,8 +68,11 @@ struct SelectCarSheetView: View {
                 header
                     .padding(10)
                 transmissionButtons
-                CarInfoCell()
-            } .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                CarInfoCell(bodyType: selectedBodyType)
+                    .transition(.slide) // 🔥 fade
+                    
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         //            .padding(.top, 7)
 //            .background(
 //                RoundedRectangle(cornerRadius: 25)
@@ -102,12 +106,12 @@ struct SelectCarSheetView: View {
     private var transmissionButtons: some View {
         ScrollView(.horizontal) {
             HStack (spacing: 8) {
-                ForEach(Transmissions.allCases, id: \.self) { transmission in
-                    CarTransmissionCell(
-                        title: transmission.rawValue.capitalized,
-                        isSelected: transmission == selectedTransmission)
+                ForEach(BodyType.allCases, id: \.self) { bodyType in
+                    CarBodyTypeCell(
+                        title: bodyType.rawValue.capitalized,
+                        isSelected: bodyType == selectedBodyType)
                         .onTapGesture {
-                            selectedTransmission = transmission
+                            selectedBodyType = bodyType
                         }
                 }
             }
