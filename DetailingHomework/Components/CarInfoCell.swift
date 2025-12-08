@@ -32,9 +32,6 @@ struct CarInfoCell: View {
                 .scaledToFit()
                 .scaleEffect(1.35)
                 .padding(.leading, 75)
-            
-
-
         }
         .frame(maxWidth: .infinity, maxHeight: 250)
         .background(Color.gray.opacity(0.3))

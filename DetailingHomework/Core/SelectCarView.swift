@@ -11,6 +11,7 @@ struct SelectCarView: View {
     
     @State private var showSheet: Bool = true
     @State private var selectedBodyType: BodyType? = nil
+    private var car: CarModel = .mock
     
     var body: some View {
             VStack {
@@ -26,12 +27,10 @@ struct SelectCarView: View {
                 }
                 Spacer()
             }
-            
             .sheet(isPresented: $showSheet) {
                 SelectCarSheetView()
                     .presentationCornerRadius(25)
                     .presentationDetents([.fraction(0.52)])
-                    
             }
         
         .background(
@@ -67,12 +66,11 @@ struct SelectCarSheetView: View {
             VStack {
                 header
                     .padding(10)
-                transmissionButtons
+                selectBodyTypeButtons
                 CarInfoCell(bodyType: selectedBodyType)
-                    .transition(.slide) // 🔥 fade
-                    
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        
         //            .padding(.top, 7)
 //            .background(
 //                RoundedRectangle(cornerRadius: 25)
@@ -80,7 +78,6 @@ struct SelectCarSheetView: View {
 //                    .shadow(radius: 10)
 //                )
             
-        
     }
     
     private var header: some View {
@@ -103,7 +100,7 @@ struct SelectCarSheetView: View {
         }
     }
     
-    private var transmissionButtons: some View {
+    private var selectBodyTypeButtons: some View {
         ScrollView(.horizontal) {
             HStack (spacing: 8) {
                 ForEach(BodyType.allCases, id: \.self) { bodyType in
