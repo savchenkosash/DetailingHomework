@@ -25,6 +25,7 @@ struct SelectCarView: View {
                         .foregroundColor(.white)
                         .cornerRadius(25)
                 }
+               
                 Spacer()
             }
             .sheet(isPresented: $showSheet) {
@@ -32,15 +33,15 @@ struct SelectCarView: View {
                     .presentationCornerRadius(25)
                     .presentationDetents([.fraction(0.52)])
             }
-        
-        .background(
-            Image("city.bckg")
-                .resizable()
-                .scaledToFit()
-                .scaleEffect(5.5)
-                .offset(y: -220)
-                .opacity(0.7)
-        )
+            
+            .background(
+                Image("city.bckg")
+                    .resizable()
+                    .scaledToFit()
+                    .scaleEffect(5.5)
+                    .offset(y: -220)
+                    .opacity(0.7)
+            )
     }
     
     private var topButtons: some View {
@@ -58,7 +59,6 @@ struct SelectCarView: View {
 struct SelectCarSheetView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    
     @State private var selectedBodyType: BodyType = .sedan
     
     var body: some View {

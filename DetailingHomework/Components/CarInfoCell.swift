@@ -11,6 +11,7 @@ struct CarInfoCell: View {
     
     var car: CarModel = .mock
     var bodyType: BodyType?
+    var imageSize: CGFloat = 150
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -25,24 +26,33 @@ struct CarInfoCell: View {
                 .fontWeight(.bold)
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
-                .frame(width: 70)
+                .frame(alignment: .leading)
+//                .background(Color.red)
+
             
             Image(bodyType?.imageName(style: .side) ?? "carimage.side")
                 .resizable()
-                .scaledToFit()
-                .scaleEffect(1.35)
-                .padding(.leading, 75)
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: imageSize)
+                .padding(.horizontal, 10)
+                .offset(y: -10)
+//                .scaledToFit()
+//                .scaleEffect(1.2)
+//                .padding(.leading, 75)
+//                .background(Color.red)
+            
         }
         .frame(maxWidth: .infinity, maxHeight: 250)
         .background(Color.gray.opacity(0.3))
         .cornerRadius(25)
         .padding(5)
+//        .background(Color.blue)
         
     }
     
     private var carPower: some View {
         HStack(alignment: .bottom, spacing: 0) {
-            Text("100 kW")
+            Text("172 kW")
                 .font(.title)
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
@@ -73,6 +83,7 @@ struct CarInfoCell: View {
              )
             .frame(width: 80, height: 40)
             
+            
             HStack {
                 Image(systemName: "figure.run")
                 Text("10.9")
@@ -94,5 +105,9 @@ struct CarInfoCell: View {
 }
 
 #Preview {
-    CarInfoCell(bodyType: .coupe)
+    VStack {
+        CarInfoCell(bodyType: .coupe)
+        CarInfoCell(bodyType: .convertible)
+
+    }
 }

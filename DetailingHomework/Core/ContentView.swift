@@ -27,6 +27,7 @@ struct ContentView: View {
             .resizable()
             .scaleEffect(1.1)
             .offset(x: 180, y: 30)
+            .background(Color.red)
         )
     }
     
