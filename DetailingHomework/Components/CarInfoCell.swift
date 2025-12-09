@@ -46,6 +46,7 @@ struct CarInfoCell: View {
         .background(Color.gray.opacity(0.3))
         .cornerRadius(25)
         .padding(5)
+        
 //        .background(Color.blue)
         
     }

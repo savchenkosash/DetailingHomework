@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let car: CarModel = .mock
+    let car: CarModel
     
     var body: some View {
         ZStack {
@@ -27,7 +27,7 @@ struct ContentView: View {
             .resizable()
             .scaleEffect(1.1)
             .offset(x: 180, y: 30)
-            .background(Color.red)
+//            .background(Color.red)
         )
     }
     
@@ -102,5 +102,5 @@ struct ContentView: View {
 }
 
 #Preview {
-        ContentView()
+    ContentView(car: .mock)
 }

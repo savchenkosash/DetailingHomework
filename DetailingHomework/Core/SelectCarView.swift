@@ -11,7 +11,10 @@ struct SelectCarView: View {
     
     @State private var showSheet: Bool = true
     @State private var selectedBodyType: BodyType? = nil
-    private var car: CarModel = .mock
+    
+//    private var car: CarModel = .mock
+    
+    @State private var detent: PresentationDetent = .fraction(0.52)
     
     var body: some View {
             VStack {
@@ -29,9 +32,9 @@ struct SelectCarView: View {
                 Spacer()
             }
             .sheet(isPresented: $showSheet) {
-                SelectCarSheetView()
+                SelectCarSheetView(detent: $detent)
                     .presentationCornerRadius(25)
-                    .presentationDetents([.fraction(0.52)])
+                    .presentationDetents([detent])
             }
             
             .background(
@@ -51,9 +54,6 @@ struct SelectCarView: View {
             MoreButtonCell(iconName: "dot.scope")
         }
     }
-    
-
-    
 }
 
 struct SelectCarSheetView: View {
@@ -61,23 +61,49 @@ struct SelectCarSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedBodyType: BodyType = .sedan
     
+    @State private var selectedCar: CarModel? = nil
+    
+    let cars = CarModel.mocks
+    
+    @Binding var detent: PresentationDetent
+    
     var body: some View {
             
+        NavigationStack {
             VStack {
                 header
                     .padding(10)
+                
                 selectBodyTypeButtons
-                CarInfoCell(bodyType: selectedBodyType)
+                
+//                CarInfoCell(bodyType: selectedBodyType)
+                
+                // new block
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(cars, id: \.self) { car in
+                            CarInfoCell(car: car, bodyType: car.bodyType)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .onTapGesture {
+                                    selectedCar = car
+                                    detent = .fraction(1)
+                                }
+                        }
+                    }
+                }
+                .frame(maxWidth: 800, maxHeight: 250)
+                .navigationDestination(item: $selectedCar) { car in
+                    ContentView(car: car)
+                }
+                .onChange(of: selectedCar) { newValue in
+                    if newValue == nil {
+                        detent = .fraction(0.52)
+                    }
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        
-        //            .padding(.top, 7)
-//            .background(
-//                RoundedRectangle(cornerRadius: 25)
-//                    .foregroundStyle(.white)
-//                    .shadow(radius: 10)
-//                )
-            
+        }
     }
     
     private var header: some View {
