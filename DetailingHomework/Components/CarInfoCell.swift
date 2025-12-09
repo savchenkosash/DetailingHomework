@@ -29,7 +29,6 @@ struct CarInfoCell: View {
                 .frame(alignment: .leading)
 //                .background(Color.red)
 
-            
             Image(bodyType?.imageName(style: .side) ?? "carimage.side")
                 .resizable()
                 .scaledToFill()

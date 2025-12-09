@@ -12,13 +12,12 @@ struct SelectCarView: View {
     @State private var showSheet: Bool = true
     @State private var selectedBodyType: BodyType? = nil
     
-//    private var car: CarModel = .mock
-    
     @State private var detent: PresentationDetent = .fraction(0.52)
     
     var body: some View {
             VStack {
                 topButtons
+                
                 Button {
                     showSheet.toggle()
                 } label: {
@@ -32,7 +31,7 @@ struct SelectCarView: View {
                 Spacer()
             }
             .sheet(isPresented: $showSheet) {
-                SelectCarSheetView(detent: $detent)
+                SelectCarSheetView()
                     .presentationCornerRadius(25)
                     .presentationDetents([detent])
             }
@@ -59,50 +58,47 @@ struct SelectCarView: View {
 struct SelectCarSheetView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @State private var selectedBodyType: BodyType = .sedan
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @State private var selectedCar: CarModel? = nil
+    @State private var selectedBodyType: BodyType = .sedan
     
     let cars = CarModel.mocks
     
-    @Binding var detent: PresentationDetent
-    
     var body: some View {
+        
+        VStack {
+            header
+                .padding(10)
             
-        NavigationStack {
-            VStack {
-                header
-                    .padding(10)
-                
-                selectBodyTypeButtons
-                
-//                CarInfoCell(bodyType: selectedBodyType)
-                
-                // new block
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(cars, id: \.self) { car in
-                            CarInfoCell(car: car, bodyType: car.bodyType)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .onTapGesture {
-                                    selectedCar = car
-                                    detent = .fraction(1)
-                                }
-                        }
-                    }
-                }
-                .frame(maxWidth: 800, maxHeight: 250)
-                .navigationDestination(item: $selectedCar) { car in
-                    ContentView(car: car)
-                }
-                .onChange(of: selectedCar) { newValue in
-                    if newValue == nil {
-                        detent = .fraction(0.52)
+            selectBodyTypeButtons
+            
+//           CarInfoCell(bodyType: selectedBodyType)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 0) {
+                    ForEach(cars, id: \.self) { car in
+                        CarInfoCell(car: car, bodyType: car.bodyType)
+                            .containerRelativeFrame(.horizontal, count: verticalSizeClass == .regular ? 1 : 1, spacing: 0)
+                            .scrollTransition { content, phase in
+                                content
+                                    .opacity(phase.isIdentity ? 1 : 0.3)
+                                    .scaleEffect(x: phase.isIdentity ? 1 : 0.8,
+                                                 y: phase.isIdentity ? 1 : 0.8)
+                            }
+                            .onTapGesture {
+                                selectedCar = car
+                            }
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .scrollTargetBehavior(.paging)
+            .frame(maxWidth: 800, maxHeight: 250)
+//            .background(Color.red)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .sheet(item: $selectedCar) { car in
+            ContentView(car: car)
         }
     }
     

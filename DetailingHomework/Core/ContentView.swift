@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     let car: CarModel
+//    var bodyType: BodyType?
     
     var body: some View {
         ZStack {
@@ -23,10 +26,17 @@ struct ContentView: View {
                     footer
             }
         }
-        .background(Image("coupeBckg")
-            .resizable()
-            .scaleEffect(1.1)
-            .offset(x: 180, y: 30)
+        
+        .background(Image(car.bodyType.imageName(style: .top))
+
+            .scaledToFill()
+            .scaleEffect(0.42)
+            .offset(x: 200, y: 10)
+                
+//        .background(Image("coupeBckg")
+//            .resizable()
+//            .scaleEffect(1.1)
+//            .offset(x: 180, y: 30)
 //            .background(Color.red)
         )
     }
@@ -60,9 +70,9 @@ struct ContentView: View {
     
     private var mainInfo: some View {
         VStack(spacing: 0) {
-            IconRowCell(title: car.model, decription: "Year", iconName: "car.side")
+            IconRowCell(title: "\(car.year)", decription: "Year", iconName: "car.side")
             IconRowCell(title: car.color ?? "Red", decription: "Color", iconName: "bubbles.and.sparkles")
-            IconRowCell(title: String(describing: car.mileage), decription: "Mileage", iconName: "gauge.with.dots.needle.33percent")
+            IconRowCell(title: (car.mileage.map { "\($0)" } ?? "—"), decription: "Mileage", iconName: "gauge.with.dots.needle.33percent")
             IconRowCell(title: car.licensePlate ?? "001AA1", decription: "Number", iconName: "number")
 
 //            IconRowCell(title: car.power, decription: "Power up", iconName: "bolt.fill")
