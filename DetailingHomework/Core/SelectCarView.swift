@@ -9,7 +9,9 @@ import SwiftUI
 
 struct SelectCarView: View {
     
-    @State private var showSheet: Bool = true
+    let user = User.mock
+    
+    @State private var showSheet: Bool = false
     @State private var selectedBodyType: BodyType? = nil
     
     @State private var detent: PresentationDetent = .fraction(0.52)
@@ -27,6 +29,10 @@ struct SelectCarView: View {
                         .foregroundColor(.white)
                         .cornerRadius(25)
                 }
+                
+                
+                Text(user.name)
+                
                
                 Spacer()
             }
